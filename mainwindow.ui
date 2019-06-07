@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>992</width>
+    <height>492</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout"/>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>992</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuCocktailCalc">
+    <property name="title">
+     <string>CocktailCalc</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_bersicht">
+    <property name="title">
+     <string>Funktionen</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionBerechnung"/>
+    <addaction name="actionZutaten_Finder"/>
+    <addaction name="actionCocktail_bersicht"/>
+   </widget>
+   <addaction name="menuCocktailCalc"/>
+   <addaction name="menu_bersicht"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionBerechnung">
+   <property name="text">
+    <string>Berechnung</string>
+   </property>
+   <property name="toolTip">
+    <string>Hier kannst du dir eine EInkaufsliste erstellen Lassen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionZutaten_Finder">
+   <property name="text">
+    <string>Zutaten Finder</string>
+   </property>
+   <property name="toolTip">
+    <string>Hier kannst du nach Zutaten suchen und sehen, wleche Cocktails diese Zutat enthalten</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionCocktail_bersicht">
+   <property name="text">
+    <string>Cocktailübersicht</string>
+   </property>
+   <property name="toolTip">
+    <string>Hier siehst du eine Übersicht aller Cocktails und ihrer Zutaten</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
