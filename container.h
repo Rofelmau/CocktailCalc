@@ -2,6 +2,7 @@
 #define CONTAINER_H
 
 #include "cocktail.h"
+#include "filedownloader.h"
 #include "ingredient.h"
 
 #include <QList>
@@ -26,15 +27,16 @@ public:
     QStringList getIngredientsAsString() const;
     void addIngredient(const Ingredient& aIngrident);
 
+    void loadData() const;
+
 private:
 
     QList<Cocktail> cocktails;
     QList<Ingredient> ingredients;
 
-    Container() {}
+    Container();
     Container( const Container& );
     Container & operator = (const Container &);
-
 };
 
 #endif // CONTAINER_H

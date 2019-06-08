@@ -4,6 +4,7 @@
 
 #include <QComboBox>
 #include <QPushButton>
+#include <QUiLoader>
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -72,16 +73,21 @@ void MainWindow::buildOverviewWidget() {
 }
 
 void MainWindow::buildFindWidget() {
-    this->activeWidget = new QWidget;
-    QComboBox* comboBox = new QComboBox(activeWidget);
-    QStringList ingridientList;
-    ingridientList << "Bitte wähle eine Zutat";
-    ingridientList << Container::instance().getIngredientsAsString();
-    comboBox->addItems(ingridientList);
-    QPushButton* button = new QPushButton("Suche Starten", activeWidget);
+
+    QUiLoader loader;
+    QFile file("/Users/lucaschuller/Documents/GitHub/CocktailCalc/searchforingredient.ui");
+    file.open(QFile::ReadOnly);
+    this->activeWidget = loader.load(&file, this);
+    file.close();
 
     ui->verticalLayout->addWidget(this->activeWidget);
     this->activeView = 2;
+
+    QStringList ingridientList;
+    ingridientList << "Bitte wähle eine Zutat";
+    ingridientList << Container::instance().getIngredientsAsString();
+    QComboBox* comboBox = this->activeWidget->findChild<QComboBox*>("selectIngredientComboBox");
+    comboBox->addItems(ingridientList);
 }
 
 void MainWindow::destroyCurrentWidget() {

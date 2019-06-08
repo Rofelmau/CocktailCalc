@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += uitools
+QT      += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    filedownloader.cpp \
         main.cpp \
         mainwindow.cpp \
     ingredient.cpp \
@@ -32,6 +35,7 @@ SOURCES += \
     cocktail.cpp
 
 HEADERS += \
+    filedownloader.h \
         mainwindow.h \
     ingredient.h \
     position.h \
@@ -39,4 +43,8 @@ HEADERS += \
     cocktail.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        searchforingredient.ui
+
+DISTFILES += \
+    cocktailList.json

@@ -1,6 +1,11 @@
 #include "container.h"
+#include "filedownloader.h"
 
 #include <QStringList>
+
+Container::Container() {
+
+}
 
 QList<Cocktail> Container::getCocktails() const {
     return this->cocktails;
