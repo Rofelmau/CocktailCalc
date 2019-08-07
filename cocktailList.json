@@ -1,44 +1,57 @@
 {
   "ingredients": [
-    "Limette",
-    "Ginger Ale",
-    "Orangensaft",
-    "Rohrzucker",
-    "Blue Curacao"
+      {
+          "name": "Limette",
+          "unit": "ST"
+      },
+      {
+          "name": "Ginger Ale",
+          "unit": "ST"
+      },
+      {
+          "name": "Orangensaft",
+          "unit": "CL"
+      },
+      {
+          "name": "Rohrzucker",
+          "unit": "BL"
+      },
+      {
+          "name": "Blue Curacao",
+          "unit": "CL"
+      }
   ],
   "cocktails": [
     {
         "name": "Ipanema",
         "ingredients": [
         {
-          "zutat": "Limette",
-          "amount": "0.5",
-          "einheit": "ST"
+          "name": "Limette",
+          "amount": "0.5"
+          
         },
         {
-          "zutat": "Rohrzucker",
-          "amount": "1.5",
-          "einheit": "BL"
+          "name": "Rohrzucker",
+          "amount": "1.5"
+          
         },
         {
-          "zutat": "Gingerale",
-          "amount": "10",
-          "einheit": "CL"
+          "name": "Gingerale",
+          "amount": "10"
+          
         }
       ]
     },
     {
       "name": "Blue Lagoon",
       "ingredients": [
-            {
-          "zutat": "Blue Curacao",
-          "amount": "2",
-          "einheit": "CL"
+        {
+            "name": "Blue Curacao",
+            "amount": "2"
         },
         {
-          "zutat": "Orangensaft",
-          "amount": "10",
-          "einheit": "CL"
+          "name": "Orangensaft",
+          "amount": "10"
         }
       ]
     }
