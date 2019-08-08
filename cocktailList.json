@@ -27,17 +27,17 @@
         "ingredients": [
         {
           "name": "Limette",
-          "amount": "0.5"
+          "amount": 0.5
           
         },
         {
           "name": "Rohrzucker",
-          "amount": "1.5"
+          "amount": 1.5
           
         },
         {
-          "name": "Gingerale",
-          "amount": "10"
+          "name": "Ginger Ale",
+          "amount": 10
           
         }
       ]
@@ -47,11 +47,11 @@
       "ingredients": [
         {
             "name": "Blue Curacao",
-            "amount": "2"
+            "amount": 2
         },
         {
           "name": "Orangensaft",
-          "amount": "10"
+          "amount": 10
         }
       ]
     }
