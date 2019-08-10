@@ -19,9 +19,60 @@
       {
           "name": "Blue Curacao",
           "unit": "CL"
-      }
+      },
+    {
+        "name": "Maracujasaft",
+        "unit": "CL"
+    },
+        {
+            "name": "Sahne",
+            "unit": "CL"
+        },
+        {
+            "name": "Grenadine",
+            "unit": "CL"
+        },
+        {
+            "name": "Limettensaft",
+            "unit": "CL"
+        },
+        {
+            "name": "Zitronensaft",
+            "unit": "CL"
+        }
+
   ],
   "cocktails": [
+        {
+            "name": "Luca Spezial",
+            "ingredients": [
+            {
+              "name": "Zitronensaft",
+              "amount": 0.5
+
+            },
+            {
+              "name": "Limettensaft",
+              "amount": 1.5
+
+            },
+            {
+              "name": "Grenadine",
+              "amount": 10
+
+            },
+                {
+                    "name": "Sahne",
+                    "amount": 10
+
+                },
+                {
+                    "name": "Maracujasaft",
+                    "amount": 10
+
+                }
+          ]
+        },
     {
         "name": "Ipanema",
         "ingredients": [
