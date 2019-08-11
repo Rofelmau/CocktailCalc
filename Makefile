@@ -59,8 +59,7 @@ SOURCES       = filedownloader.cpp \
 		position.cpp \
 		container.cpp \
 		cocktail.cpp moc_filedownloader.cpp \
-		moc_mainwindow.cpp \
-		moc_container.cpp
+		moc_mainwindow.cpp
 OBJECTS       = filedownloader.o \
 		main.o \
 		mainwindow.o \
@@ -69,8 +68,7 @@ OBJECTS       = filedownloader.o \
 		container.o \
 		cocktail.o \
 		moc_filedownloader.o \
-		moc_mainwindow.o \
-		moc_container.o
+		moc_mainwindow.o
 DIST          = cocktailList.json \
 		../../../Qt/5.12.2/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.12.2/clang_64/mkspecs/qdevice.pri \
@@ -294,7 +292,7 @@ include /Users/lucaschuller/Qt/5.12.2/clang_64/mkspecs/features/mac/sdk.mk
 first: all
 ####### Build rules
 
-CocktailCalc.app/Contents/MacOS/CocktailCalc: /Users/lucaschuller/Qt/5.12.2/clang_64/lib/libQt5UiTools_debug.a ui_mainwindow.h ui_searchforingredient.h $(OBJECTS)  
+CocktailCalc.app/Contents/MacOS/CocktailCalc: /Users/lucaschuller/Qt/5.12.2/clang_64/lib/libQt5UiTools_debug.a ui_mainwindow.h $(OBJECTS)  
 	@test -d CocktailCalc.app/Contents/MacOS/ || mkdir -p CocktailCalc.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -727,7 +725,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents ../../../Qt/5.12.2/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents filedownloader.h mainwindow.h ingredient.h position.h container.h cocktail.h $(DISTDIR)/
 	$(COPY_FILE) --parents filedownloader.cpp main.cpp mainwindow.cpp ingredient.cpp position.cpp container.cpp cocktail.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.ui searchforingredient.ui $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -762,9 +760,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt/5.12.2/clang_64/mkspecs/features/data/dummy.cpp
 	/Library/Developer/CommandLineTools/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=10.12 -Wall -W -dM -E -o moc_predefs.h ../../../Qt/5.12.2/clang_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_filedownloader.cpp moc_mainwindow.cpp moc_container.cpp
+compiler_moc_header_make_all: moc_filedownloader.cpp moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_filedownloader.cpp moc_mainwindow.cpp moc_container.cpp
+	-$(DEL_FILE) moc_filedownloader.cpp moc_mainwindow.cpp
 moc_filedownloader.cpp: filedownloader.h \
 		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/qobject.h \
@@ -786,7 +784,30 @@ moc_mainwindow.cpp: mainwindow.h \
 		../../../Qt/5.12.2/clang_64/bin/moc
 	/Users/lucaschuller/Qt/5.12.2/clang_64/bin/moc $(DEFINES) --include /Users/lucaschuller/Documents/GitHub/CocktailCalc/moc_predefs.h -I/Users/lucaschuller/Qt/5.12.2/clang_64/mkspecs/macx-clang -I/Users/lucaschuller/Documents/GitHub/CocktailCalc -I/Users/lucaschuller/Qt/5.12.2/clang_64/include -I/Users/lucaschuller/Qt/5.12.2/clang_64/include/QtUiTools -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtGui.framework/Headers -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtNetwork.framework/Headers -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtCore.framework/Headers -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include -I/Library/Developer/CommandLineTools/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -F/Users/lucaschuller/Qt/5.12.2/clang_64/lib mainwindow.h -o moc_mainwindow.cpp
 
-moc_container.cpp: container.h \
+compiler_moc_objc_header_make_all:
+compiler_moc_objc_header_clean:
+compiler_moc_source_make_all:
+compiler_moc_source_clean:
+compiler_uic_make_all: ui_mainwindow.h
+compiler_uic_clean:
+	-$(DEL_FILE) ui_mainwindow.h
+ui_mainwindow.h: mainwindow.ui \
+		../../../Qt/5.12.2/clang_64/bin/uic
+	/Users/lucaschuller/Qt/5.12.2/clang_64/bin/uic mainwindow.ui -o ui_mainwindow.h
+
+compiler_rez_source_make_all:
+compiler_rez_source_clean:
+compiler_yacc_decl_make_all:
+compiler_yacc_decl_clean:
+compiler_yacc_impl_make_all:
+compiler_yacc_impl_clean:
+compiler_lex_make_all:
+compiler_lex_clean:
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+
+####### Compile
+
+filedownloader.o: filedownloader.cpp container.h \
 		cocktail.h \
 		filedownloader.h \
 		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/QObject \
@@ -803,47 +824,12 @@ moc_container.cpp: container.h \
 		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.12.2/clang_64/lib/QtGui.framework/Headers/QList \
 		../../../Qt/5.12.2/clang_64/lib/QtGui.framework/Headers/qevent.h \
-		moc_predefs.h \
-		../../../Qt/5.12.2/clang_64/bin/moc
-	/Users/lucaschuller/Qt/5.12.2/clang_64/bin/moc $(DEFINES) --include /Users/lucaschuller/Documents/GitHub/CocktailCalc/moc_predefs.h -I/Users/lucaschuller/Qt/5.12.2/clang_64/mkspecs/macx-clang -I/Users/lucaschuller/Documents/GitHub/CocktailCalc -I/Users/lucaschuller/Qt/5.12.2/clang_64/include -I/Users/lucaschuller/Qt/5.12.2/clang_64/include/QtUiTools -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtGui.framework/Headers -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtNetwork.framework/Headers -I/Users/lucaschuller/Qt/5.12.2/clang_64/lib/QtCore.framework/Headers -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include -I/Library/Developer/CommandLineTools/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -F/Users/lucaschuller/Qt/5.12.2/clang_64/lib container.h -o moc_container.cpp
-
-compiler_moc_objc_header_make_all:
-compiler_moc_objc_header_clean:
-compiler_moc_source_make_all:
-compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_searchforingredient.h
-compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_searchforingredient.h
-ui_mainwindow.h: mainwindow.ui \
-		../../../Qt/5.12.2/clang_64/bin/uic
-	/Users/lucaschuller/Qt/5.12.2/clang_64/bin/uic mainwindow.ui -o ui_mainwindow.h
-
-ui_searchforingredient.h: searchforingredient.ui \
-		../../../Qt/5.12.2/clang_64/bin/uic
-	/Users/lucaschuller/Qt/5.12.2/clang_64/bin/uic searchforingredient.ui -o ui_searchforingredient.h
-
-compiler_rez_source_make_all:
-compiler_rez_source_clean:
-compiler_yacc_decl_make_all:
-compiler_yacc_decl_clean:
-compiler_yacc_impl_make_all:
-compiler_yacc_impl_clean:
-compiler_lex_make_all:
-compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
-
-####### Compile
-
-filedownloader.o: filedownloader.cpp filedownloader.h \
-		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/QByteArray \
-		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/qbytearray.h \
-		../../../Qt/5.12.2/clang_64/lib/QtNetwork.framework/Headers/QNetworkAccessManager.h \
-		../../../Qt/5.12.2/clang_64/lib/QtNetwork.framework/Headers/QNetworkRequest \
-		../../../Qt/5.12.2/clang_64/lib/QtNetwork.framework/Headers/qnetworkrequest.h \
-		../../../Qt/5.12.2/clang_64/lib/QtNetwork.framework/Headers/QNetworkReply \
-		../../../Qt/5.12.2/clang_64/lib/QtNetwork.framework/Headers/qnetworkreply.h
+		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/QJsonDocument \
+		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/qjsondocument.h \
+		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/QJsonArray \
+		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/qjsonarray.h \
+		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/QJsonObject \
+		../../../Qt/5.12.2/clang_64/lib/QtCore.framework/Headers/qjsonobject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filedownloader.o filedownloader.cpp
 
 main.o: main.cpp container.h \
@@ -936,9 +922,6 @@ moc_filedownloader.o: moc_filedownloader.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
-
-moc_container.o: moc_container.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_container.o moc_container.cpp
 
 ####### Install
 

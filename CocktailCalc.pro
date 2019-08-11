@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += uitools
 QT      += network
+QT      += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -43,8 +44,10 @@ HEADERS += \
     cocktail.h
 
 FORMS += \
-        mainwindow.ui \
-        searchforingredient.ui
+        mainwindow.ui
 
 DISTFILES += \
     cocktailList.json
+
+OTHER_FILES += \
+    .gitignore

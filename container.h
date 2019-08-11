@@ -11,32 +11,42 @@
 
 class Container {
 
-public:
-    static Container& instance() {
-           static Container _instance;
-           return _instance;
-    }
+    public:
+        static Container& instance() {
+               static Container _instance;
+               return _instance;
+        }
 
-    ~Container() {}
+        ~Container() {}
 
-    QList<Cocktail> getCocktails() const;
-    QStringList getCocktailsAsString() const;
-    void addCocktail(const Cocktail& aCocktail);
+        QList<Cocktail*> getCocktails() const;
 
-    QList<Ingredient> getIngredients() const;
-    QStringList getIngredientsAsString() const;
-    void addIngredient(const Ingredient& aIngrident);
+        QStringList getCocktailsAsString() const;
 
-    void loadData() const;
+        void addCocktail(Cocktail *aCocktail);
 
-private:
+        QList<Ingredient*> getIngredients() const;
 
-    QList<Cocktail> cocktails;
-    QList<Ingredient> ingredients;
+        QStringList getIngredientsAsString() const;
 
-    Container();
-    Container( const Container& );
-    Container & operator = (const Container &);
+        void addIngredient(Ingredient* aIngrident);
+
+        void loadData() const;
+
+        Ingredient* findIngredientByName(const QString& aName) const;
+
+        Cocktail* findCocktailByName(const QString& aName) const;
+
+    private:
+        QList<Cocktail*> cocktails;
+
+        QList<Ingredient*> ingredients;
+
+        Container();
+
+        Container( const Container& );
+
+        Container & operator = (const Container &);
 };
 
 #endif // CONTAINER_H

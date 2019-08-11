@@ -8,12 +8,16 @@
 class Ingredient
 {
 public:
-    Ingredient(const QString& aName);
+    Ingredient(const QString& aName, const QString& anUnit);
 
     QString getName() const;
 
+    QString getUnit() const;
+
 private:
     QString name;
+
+    QString unit;
 
 
 };
