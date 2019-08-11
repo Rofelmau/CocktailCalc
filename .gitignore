@@ -1,0 +1,8 @@
+*.o
+*.pro
+*.pro.*
+Makefile
+moc_*
+*.DS_Store
+*.app
+*/Contents/*
