@@ -20,11 +20,11 @@ jobs:
         config:
         - {
             name: "Windows Latest x64",
-            artifact: "Windows-x64",
+            artifact: "Windows-x64.zip",
             os: windows-latest,
           }
 
-      steps:
+    steps:
       - name: Print working directory on runner
         run: Get-Location
 
