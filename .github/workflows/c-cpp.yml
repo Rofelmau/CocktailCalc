@@ -55,31 +55,35 @@ jobs:
         with:
           platform: x64
     
-      - name: Install Qt
+      - name: Install Qt Windows
+        if: startsWith(matrix.os, 'windows')
         uses: jurplel/install-qt-action@v2
         with:
           host: ${{ matrix.config.host }}
           version: ${{ env.QT_VERSION }}
           arch: ${{ env.MINGW_VERSION }}
           extra: --external 7z
-
-      - name: Set path and refresh
-        run: |
-          echo "$Qt5_DIR"
-          echo "$Qt5_DIR/bin" >> $GITHUB_PATH
-          echo "$Qt5_DIR/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
-
-      - name: Prepend path
-        run: |
-          echo "$Qt5_DIR/mingw73_32/bin" >> $GITHUB_PATH
+        run: dir %Qt5_DIR%\lib\cmake
+    
+      - name: Install Qt Uibuntu
+        if: (!startsWith(matrix.os, 'windows'))
+        uses: jurplel/install-qt-action@v2
+        with:
+          host: ${{ matrix.config.host }}
+          version: ${{ env.QT_VERSION }}
+          extra: --external 7z
   
       - name: Qmake and make
-        run: | 
+        env:
+          QT_VERSION: ${{ matrix.version }}
+        run: |
           qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += ${GITHUB_WORKSPACE}\Qt\${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
           mingw32-make.exe qmake_all
 
       - name: Build
         shell: cmake -P {0}
+        env:
+          QT_VERSION: ${{ matrix.version }}
         run: |
           if ("${{ runner.os }}" STREQUAL "Windows")
             set(ENV{PATH} "${{ steps.qt.outputs.qt_dir }}/bin/;$ENV{PATH}")
