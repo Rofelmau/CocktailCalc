@@ -99,59 +99,77 @@ jobs:
           string(REPLACE "licheck64" "" qtconfig "${qtconfig}")
           string(REPLACE "licheck_mac" "" qtconfig "${qtconfig}")
           file(WRITE "qt5/${qt_dir_prefix}/mkspecs/qconfig.pri" "${qtconfig}")
-
-      - name: Set path and refresh
+      
+      - name: Configure
+        shell: cmake -P {0}
         run: |
-          echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
+          if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
+            execute_process(
+              COMMAND "${{ matrix.config.environment_script }}" && set
+              OUTPUT_FILE environment_script_output.txt
+            )
+            file(STRINGS environment_script_output.txt output_lines)
+            foreach(line IN LISTS output_lines)
+              if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
+                set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
+                # Set for other steps
+                message("::set-env name=${CMAKE_MATCH_1}::${CMAKE_MATCH_2}")
+              endif()
+            endforeach()
+          endif()
+          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qtcreator" qtcreator_dir)
+          execute_process(
+            COMMAND ${{ steps.qt.outputs.qt_dir }}/bin/qmake
+              $ENV{PLUGIN_PRO}
+              CONFIG+=release
+              QTC_SOURCE="${qtcreator_dir}"
+              QTC_BUILD="${qtcreator_dir}"
+            RESULT_VARIABLE result
+          )
+          if (NOT result EQUAL 0)
+            message(FATAL_ERROR "Bad exit status")
+          endif()
 
-      - name: Check QMake and make
+      - name: Build
+        shell: cmake -P {0}
         run: |
-          qmake.exe -version
-          #mingw32-make.exe -version
-
-      - name: Prepend path
-        run: echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
-
-      - name: Check QMake and make after prepend path
-        run: |
-          ${{ steps.qt.outputs.qt_dir }}/bin/qmake.exe -version
-          #mingw32-make.exe -version
-
-      - name: Qmake and make
-        working-directory: d:/a/CocktailCalc/CocktailCalc
-        run: | 
-          qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
-          mingw32-make.exe qmake_all
-
-      - name: Check QMake and make, g++
-        run: |
-          qmake.exe -version
-          mingw32-make.exe -version
-          g++.exe --version
-          
-      - name: Get number of CPU cores
-        uses: SimenB/github-actions-cpu-cores@v1
-        id: cpu-cores
-
-      - name: Make mingw32
-        working-directory: d:/a/CocktailCalc/CocktailCalc
-        run: |
-          mingw32-make.exe -j${{ steps.cpu-cores.outputs.count }}
-          Get-Location
-          ls
+          if ("${{ runner.os }}" STREQUAL "Windows")
+            set(ENV{PATH} "${{ steps.qt.outputs.qt_dir }}/bin/;$ENV{PATH}")
+          else()
+            set(ENV{PATH} "${{ steps.qt.outputs.qt_dir }}/bin/:$ENV{PATH}")
+            set(ENV{LD_LIBRARY_PATH} "qtcreator/lib/Qt/lib:$ENV{LD_LIBRARY_PATH}")
+          endif()
+          include(ProcessorCount)
+          ProcessorCount(N)
+          set(make_program make -j ${N})
+          if ("${{ runner.os }}" STREQUAL "Windows")
+            set(make_program "qtcreator/bin/jom")
+          endif()
+          execute_process(
+            COMMAND ${make_program}
+            RESULT_VARIABLE result
+          )
+          if (NOT result EQUAL 0)
+            message(FATAL_ERROR "Bad exit status")
+          endif()
+          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact }}" artifact)
+          execute_process(COMMAND
+            ${CMAKE_COMMAND} -E tar cvf ${artifact} --format=zip "${{ steps.qt_creator.outputs.qtc_binary_name }}"
+            WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
+          )
       
       - name: prepare release
         run: |
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Core.dll D:/a/CocktailCalc/CocktailCalc/release/
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Gui.dll D:/a/CocktailCalc/CocktailCalc/release/
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Network.dll D:/a/CocktailCalc/CocktailCalc/release/
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Widgets.dll D:/a/CocktailCalc/CocktailCalc/release/
-          rm D:/a/CocktailCalc/CocktailCalc/release/*.so
-          rm D:/a/CocktailCalc/CocktailCalc/release/*.h 
-          rm D:/a/CocktailCalc/CocktailCalc/release/*.cpp 
+          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Core.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Gui.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Network.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Widgets.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}e/*.so
+          rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}/*.h 
+          rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}/*.cpp 
 
       - name: upload artifact release
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.config.artifact }}
-          path: D:/a/CocktailCalc/CocktailCalc/release
+          path: ./${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          name: ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
