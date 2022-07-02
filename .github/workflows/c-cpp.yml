@@ -1,17 +1,17 @@
-name: QMake Build cocktailCalc
+name: QMake Build Matrix
 
 on: [push]
 
 env:
-  QT_VERSION: 5.13.0
-  QT_CREATOR_VERSION: 4.9.2
-  PLUGIN_PRO: CocktailCalc.pro
-  PLUGIN_NAME: CocktailCalc
+  QT_VERSION: 5.14.0
+  QT_CREATOR_VERSION: 4.11.0
+  PLUGIN_PRO: doxygen.pro
+  PLUGIN_NAME: Doxygen
 
 jobs:
   build:
-    name: ${{ cocktailCalc.config.name }}
-    runs-on: ${{ cocktailCalc.config.os }}
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
         config:
@@ -53,10 +53,10 @@ jobs:
         string(REPLACE "." "" qt_version_dotless "${qt_version}")
         if ("${{ runner.os }}" STREQUAL "Windows")
           set(url_os "windows_x86")
-          if ("${{ cocktailCalc.config.environment_script }}" MATCHES "vcvars64.bat")
+          if ("${{ matrix.config.environment_script }}" MATCHES "vcvars64.bat")
             set(qt_package_name "qt.qt5.${qt_version_dotless}.win64_msvc2017_64")
             set(qt_dir_prefix "${qt_version}/msvc2017_64")
-          elseif ("${{ cocktailCalc.config.environment_script }}" MATCHES "vcvars32.bat")
+          elseif ("${{ matrix.config.environment_script }}" MATCHES "vcvars32.bat")
             set(qt_package_name "qt.qt5.${qt_version_dotless}.win32_msvc2017")
             set(qt_dir_prefix "${qt_version}/msvc2017")
           else()
@@ -79,7 +79,7 @@ jobs:
         set(package_suffix ${CMAKE_MATCH_2})
         string(REPLACE "-debug-symbols" "" package_suffix "${package_suffix}")
         # Workaround for CMake's greedy regex
-        if ("${{ cocktailCalc.config.environment_script }}" MATCHES "vcvars32.bat")
+        if ("${{ matrix.config.environment_script }}" MATCHES "vcvars32.bat")
           string(REPLACE "X86_64" "X86" package_suffix "${package_suffix}")
         endif()
         file(MAKE_DIRECTORY qt5)
@@ -108,9 +108,9 @@ jobs:
         if ("${{ runner.os }}" STREQUAL "Windows")
           set(qtc_output_directory "qtcreator/lib/qtcreator/plugins")
           set(qtc_binary_name "$ENV{PLUGIN_NAME}4.dll")
-          if ("${{ cocktailCalc.config.environment_script }}" MATCHES "vcvars64.bat")
+          if ("${{ matrix.config.environment_script }}" MATCHES "vcvars64.bat")
             set(qtc_platform "windows_msvc2017_x64")
-          elseif ("${{ cocktailCalc.config.environment_script }}" MATCHES "vcvars32.bat")
+          elseif ("${{ matrix.config.environment_script }}" MATCHES "vcvars32.bat")
             set(qtc_platform "windows_msvc2017_x86")
           endif()
         elseif ("${{ runner.os }}" STREQUAL "Linux")
@@ -143,9 +143,9 @@ jobs:
     - name: Configure
       shell: cmake -P {0}
       run: |
-        if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ cocktailCalc.config.environment_script }}" STREQUAL "x")
+        if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
           execute_process(
-            COMMAND "${{ cocktailCalc.config.environment_script }}" && set
+            COMMAND "${{ matrix.config.environment_script }}" && set
             OUTPUT_FILE environment_script_output.txt
           )
           file(STRINGS environment_script_output.txt output_lines)
@@ -191,7 +191,7 @@ jobs:
         if (NOT result EQUAL 0)
           message(FATAL_ERROR "Bad exit status")
         endif()
-        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-$ENV{QT_CREATOR_VERSION}-${{ cocktailCalc.config.artifact }}" artifact)
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact }}" artifact)
         execute_process(COMMAND
           ${CMAKE_COMMAND} -E tar cvf ${artifact} --format=zip "${{ steps.qt_creator.outputs.qtc_binary_name }}"
           WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
@@ -199,8 +199,8 @@ jobs:
     - uses: actions/upload-artifact@v1
       id: upload_artifact
       with:
-        path: ./${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ cocktailCalc.config.artifact }}
-        name: ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ cocktailCalc.config.artifact }}
+        path: ./${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+        name: ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
 
   release:
     if: contains(github.ref, 'tags/v')
@@ -230,10 +230,10 @@ jobs:
   publish:
     if: contains(github.ref, 'tags/v')
 
-    name: ${{ cocktailCalc.config.name }}
-    runs-on: ${{ cocktailCalc.config.os }}
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
-      cocktailCalc:
+      matrix:
         config:
         - {
             name: "Windows Latest x64", artifact: "Windows-x64.zip",
@@ -257,7 +257,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v1
       with:
-        name: ${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ cocktailCalc.config.artifact }}
+        name: ${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
         path: ./
 
     - name: Download URL
@@ -276,6 +276,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.set_upload_url.outputs.upload_url }}
-        asset_path: ./${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ cocktailCalc.config.artifact }}
-        asset_name: ${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ cocktailCalc.config.artifact }}
+        asset_path: ./${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+        asset_name: ${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
         asset_content_type: application/zip
