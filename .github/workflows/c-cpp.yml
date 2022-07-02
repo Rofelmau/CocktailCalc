@@ -3,10 +3,10 @@ name: QMake Build Matrix
 on: [push]
 
 env:
-  QT_VERSION: 5.14.0
+  QT_VERSION: 5.13.0
   QT_CREATOR_VERSION: 4.11.0
-  PLUGIN_PRO: doxygen.pro
-  PLUGIN_NAME: Doxygen
+  PLUGIN_PRO: CocktailCalc.pro
+  PLUGIN_NAME: CocktailCalc
 
 jobs:
   build:
