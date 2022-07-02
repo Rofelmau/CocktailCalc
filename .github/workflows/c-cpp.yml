@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Print working directory on runner
-        run: ${GITHUB_WORKSPACE}
+        run: echo "${GITHUB_WORKSPACE}"
 
       - uses: actions/checkout@v2
 
