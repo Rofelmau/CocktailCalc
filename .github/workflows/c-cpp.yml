@@ -116,9 +116,9 @@ jobs:
           cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Gui.dll D:/a/CocktailCalc/CocktailCalc/release/
           cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Network.dll D:/a/CocktailCalc/CocktailCalc/release/
           cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Widgets.dll D:/a/CocktailCalc/CocktailCalc/release/
-          rm *.so D:/a/CocktailCalc/CocktailCalc/release/
-          rm *.h D:/a/CocktailCalc/CocktailCalc/release/
-          rm *.cpp D:/a/CocktailCalc/CocktailCalc/release/
+          rm D:/a/CocktailCalc/CocktailCalc/release/*.so
+          rm D:/a/CocktailCalc/CocktailCalc/release/*.h 
+          rm D:/a/CocktailCalc/CocktailCalc/release/*.cpp 
 
       - name: upload artifact release
         uses: actions/upload-artifact@v3
