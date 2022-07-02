@@ -97,8 +97,14 @@ jobs:
         Get-Location
         ls
       
-    - name: upload artifact
+    - name: upload artifact release
       uses: actions/upload-artifact@v3
       with:
         name: Build-Windows
-        path: d:/a/CocktailCalc/CocktailCalc/release/
+        path: D:/a/CocktailCalc/CocktailCalc/release
+        
+    - name: upload artifact debug
+      uses: actions/upload-artifact@v3
+      with:
+        name: Build-Windows-Debug
+        path: D:/a/CocktailCalc/CocktailCalc/debug
