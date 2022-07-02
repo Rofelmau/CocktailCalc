@@ -65,16 +65,15 @@ jobs:
 
       - name: Set path and refresh
         run: |
-          echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
+          echo "${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
 
       - name: Prepend path
         run: |
-          echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" >> $GITHUB_PATH
+          echo "${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" >> $GITHUB_PATH
   
       - name: Qmake and make
-        working-directory: d:/a/CocktailCalc/CocktailCalc
         run: | 
-          ./Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += D:\a\CocktailCalc\Qt\5.12.7\mingw73_32\lib\libQt5Cored.a"
+          qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += ${GITHUB_WORKSPACE}\Qt\${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
           mingw32-make.exe qmake_all
 
       - name: Build
@@ -107,10 +106,10 @@ jobs:
       
       - name: prepare release
         run: |
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Core.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Gui.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Network.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          cp D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Widgets.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Core.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Gui.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Network.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Widgets.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
           rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}e/*.so
           rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}/*.h 
           rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}/*.cpp 
