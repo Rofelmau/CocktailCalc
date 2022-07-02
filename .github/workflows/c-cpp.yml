@@ -81,7 +81,7 @@ jobs:
           make qmake_all
       
       - name: Qmake Ubuntu
-        if: startsWith(matrix.os, 'windows')
+        if: (!startsWith(matrix.os, 'windows'))
         env:
           QT_VERSION: ${{ matrix.version }}
         run: |
