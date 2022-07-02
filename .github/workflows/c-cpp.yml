@@ -63,7 +63,6 @@ jobs:
           version: ${{ env.QT_VERSION }}
           arch: ${{ env.MINGW_VERSION }}
           extra: --external 7z
-        run: dir %Qt5_DIR%\lib\cmake
     
       - name: Install Qt Uibuntu
         if: (!startsWith(matrix.os, 'windows'))
