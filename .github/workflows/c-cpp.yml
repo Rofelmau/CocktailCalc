@@ -77,7 +77,7 @@ jobs:
     - name: Qmake and make
       working-directory: d:/a/CocktailCalc/CocktailCalc
       run: | 
-        qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" #"LIBS += D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }\lib\libQt5Cored.a"
+        qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" #"LIBS += D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
         mingw32-make.exe qmake_all
         
     - name: Check QMake and make, g++
