@@ -105,7 +105,7 @@ jobs:
       
       - name: Qmake and make
         run: | 
-          qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += D:\a\CocktailCalc\Qt\5.12.7\mingw73_32\lib\libQt5Cored.a"
+          d:/a/CocktailCalc/CocktailCalc/qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += D:\a\CocktailCalc\Qt\5.12.7\mingw73_32\lib\libQt5Cored.a"
           mingw32-make.exe qmake_all
 
       - name: Build
