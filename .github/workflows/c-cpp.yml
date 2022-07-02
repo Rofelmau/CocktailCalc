@@ -2,7 +2,6 @@ name: CI
 
 env:
   QT_VERSION:     "5.13.0"
-  QT_CREATOR_VERSION: 4.11.0
   MINGW_VERSION:  "win64_mingw73"
   MINGW_PATH:     "mingw73_64"
   PLUGIN_PRO: CocktailCalc.pro
@@ -93,16 +92,6 @@ jobs:
           QT_VERSION: ${{ matrix.version }}
         run: |
           make
-      
-      - name: prepare release
-        run: |
-          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Core.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/QT5Gui.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Network.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          cp ${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/Qt5Widgets.dll ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}e/*.so
-          rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}/*.h 
-          rm ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}/*.cpp 
 
       - name: upload artifact release
         uses: actions/upload-artifact@v3
