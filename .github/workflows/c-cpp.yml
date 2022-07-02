@@ -105,8 +105,8 @@ jobs:
       
       - name: Set path and refresh
         run: |
-          echo "::add-path::d:/a/qt-github-console/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin"
-      
+          echo "d:/a/qt-github-console/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
+  
       - name: Qmake and make
         run: | 
           qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += D:\a\CocktailCalc\Qt\5.12.7\mingw73_32\lib\libQt5Cored.a"
