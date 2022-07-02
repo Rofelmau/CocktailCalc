@@ -100,25 +100,6 @@ jobs:
           string(REPLACE "licheck_mac" "" qtconfig "${qtconfig}")
           file(WRITE "qt5/${qt_dir_prefix}/mkspecs/qconfig.pri" "${qtconfig}")
 
-      - name: Install correct version of mingw
-        run: |
-          choco uninstall mingw --force
-          choco uninstall strawberryperl --force
-          choco install mingw --version=7.3.0 
-          #choco install qt-sdk-windows-x86-mingw_opengl
-
-      - name: Check mingw directory
-        run: |
-          ls C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-          host: windows
-          version: ${{ env.QT_VERSION }}
-          arch: ${{ env.MINGW_VERSION }}
-          #modules: 'qtcore'
-          extra: --external 7z
-
       - name: Set path and refresh
         run: |
           echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
