@@ -4,6 +4,8 @@ env:
   QT_VERSION:     "5.13.0"
   MINGW_VERSION:  "win64_mingw73"
   MINGW_PATH:     "mingw73_64"
+  PLUGIN_PRO: CocktailCalc.pro
+  PLUGIN_NAME: CocktailCalc
   
 on:
   push:
