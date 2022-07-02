@@ -102,9 +102,17 @@ jobs:
       - name: Make mingw32
         working-directory: d:/a/CocktailCalc/CocktailCalc
         run: |
-          mingw32-make.exe -j8
+          include(ProcessorCount)
+          ProcessorCount(N)
+          mingw32-make.exe -j${N}
           Get-Location
           ls
+      
+      - name: prepare release
+        run: |
+          cp D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }}\bin\QT5Core.dll D:/a/CocktailCalc/CocktailCalc/release
+          cp D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }}\bin\QT5Gui.dll D:/a/CocktailCalc/CocktailCalc/release
+
 
       - name: upload artifact release
         uses: actions/upload-artifact@v3
