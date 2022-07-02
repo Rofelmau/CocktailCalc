@@ -103,8 +103,6 @@ jobs:
       - name: Set path and refresh
         run: |
           echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
-          refreshenv
-          #g++.exe --version
 
       - name: Check availability of libraries
         working-directory: D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/
