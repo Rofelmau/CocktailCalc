@@ -37,7 +37,6 @@ jobs:
 
       - name: Check mingw g++ version
         run: |
-          Write-Output (Get-Command g++.exe).Path
           g++.exe --version        
 
       - name: Install correct version of mingw
@@ -63,7 +62,6 @@ jobs:
         run: |
           echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
           refreshenv
-          #Write-Output (Get-Command g++.exe).Path
           #g++.exe --version
 
       - name: Check availability of libraries
@@ -73,9 +71,7 @@ jobs:
           ls D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
       - name: Check QMake and make
         run: |
-          Write-Output (Get-Command qmake.exe).Path
           qmake.exe -version
-          #Write-Output (Get-Command mingw32-make.exe).Path
           #mingw32-make.exe -version
 
       - name: Prepend path
@@ -83,9 +79,7 @@ jobs:
 
       - name: Check QMake and make after prepend path
         run: |
-          Write-Output (Get-Command qmake.exe).Path
           qmake.exe -version
-          #Write-Output (Get-Command mingw32-make.exe).Path
           #mingw32-make.exe -version
 
       - name: Qmake and make
@@ -96,12 +90,8 @@ jobs:
 
       - name: Check QMake and make, g++
         run: |
-          Write-Output (Get-Command qmake.exe).Path
           qmake.exe -version
-          Write-Output (Get-Command mingw32-make.exe).Path
           mingw32-make.exe -version
-          Write-Output (Get-Command g++).Path
-          ls (Get-Command g++.exe).Path
           g++.exe --version
           
       - name: Get number of CPU cores
