@@ -96,3 +96,9 @@ jobs:
         mingw32-make.exe -j8
         Get-Location
         ls
+      
+    - name: upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: CocktailCalc.exe
+        path: d:/a/CocktailCalc/CocktailCalc/release/d:/a/CocktailCalc/CocktailCalc.exe
