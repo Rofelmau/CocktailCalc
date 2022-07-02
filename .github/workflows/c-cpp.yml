@@ -47,7 +47,7 @@ jobs:
 
     - name: Set path and refresh
       run: |
-        echo "::add-path::d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin"
+        echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
         refreshenv
         #Write-Output (Get-Command g++.exe).Path
         #g++.exe --version
@@ -65,7 +65,7 @@ jobs:
         #mingw32-make.exe -version
     
     - name: Prepend path
-      run: echo "::add-path::d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/mingw73_32/bin"
+      run: echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
 
     - name: Check QMake and make after prepend path
       run: |
@@ -77,7 +77,7 @@ jobs:
     - name: Qmake and make
       working-directory: d:/a/CocktailCalc/CocktailCalc
       run: | 
-        qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" #"LIBS += D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\mingw73_32\lib\libQt5Cored.a"
+        qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" #"LIBS += D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }\lib\libQt5Cored.a"
         mingw32-make.exe qmake_all
         
     - name: Check QMake and make, g++
