@@ -114,7 +114,7 @@ jobs:
 
       - name: Check QMake and make after prepend path
         run: |
-          qmake.exe -version
+          ${{ steps.qt.outputs.qt_dir }}/bin/qmake.exe -version
           #mingw32-make.exe -version
 
       - name: Qmake and make
