@@ -37,7 +37,7 @@ jobs:
       run: |
         ls C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.6.2
+      uses: jurplel/install-qt-action@v2
       with:
         host: windows
         version: ${{ env.QT_VERSION }}
