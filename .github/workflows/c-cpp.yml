@@ -104,11 +104,6 @@ jobs:
         run: |
           echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
 
-      - name: Check availability of libraries
-        working-directory: D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/
-        run: |
-          ls
-          ls D:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
       - name: Check QMake and make
         run: |
           qmake.exe -version
