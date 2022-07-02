@@ -80,34 +80,10 @@ jobs:
           make qmake_all
 
       - name: Build
-        shell: cmake -P {0}
         env:
           QT_VERSION: ${{ matrix.version }}
         run: |
-          if ("${{ runner.os }}" STREQUAL "Windows")
-            set(ENV{PATH} "${{ steps.qt.outputs.qt_dir }}/bin/;$ENV{PATH}")
-          else()
-            set(ENV{PATH} "${{ steps.qt.outputs.qt_dir }}/bin/:$ENV{PATH}")
-            set(ENV{LD_LIBRARY_PATH} "qtcreator/lib/Qt/lib:$ENV{LD_LIBRARY_PATH}")
-          endif()
-          include(ProcessorCount)
-          ProcessorCount(N)
-          set(make_program make -j ${N})
-          if ("${{ runner.os }}" STREQUAL "Windows")
-            set(make_program "qtcreator/bin/jom")
-          endif()
-          execute_process(
-            COMMAND ${make_program}
-            RESULT_VARIABLE result
-          )
-          if (NOT result EQUAL 0)
-            message(FATAL_ERROR "Bad exit status")
-          endif()
-          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/$ENV{PLUGIN_NAME}-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact }}" artifact)
-          execute_process(COMMAND
-            ${CMAKE_COMMAND} -E tar cvf ${artifact} --format=zip "${{ steps.qt_creator.outputs.qtc_binary_name }}"
-            WORKING_DIRECTORY "${{ steps.qt_creator.outputs.qtc_output_directory }}"
-          )
+          make
       
       - name: prepare release
         run: |
