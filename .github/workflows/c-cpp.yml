@@ -33,11 +33,7 @@ jobs:
       - name: Print working directory on runner
         run: echo "${GITHUB_WORKSPACE}"
 
-      - uses: actions/checkout@v2
-
-      - name: Check mingw g++ version
-        run: |
-          g++.exe --version        
+      - uses: actions/checkout@v2   
 
       - name: Install correct version of mingw
         run: |
