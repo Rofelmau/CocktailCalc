@@ -56,7 +56,7 @@ jobs:
           platform: x64
     
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2.6.2
+        uses: jurplel/install-qt-action@v2
         with:
           host: ${{ matrix.config.host }}
           version: ${{ env.QT_VERSION }}
