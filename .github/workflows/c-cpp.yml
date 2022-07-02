@@ -76,7 +76,7 @@ jobs:
         env:
           QT_VERSION: ${{ matrix.version }}
         run: |
-          qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += ${GITHUB_WORKSPACE}\Qt\${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
+          qmake CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += ${GITHUB_WORKSPACE}\Qt\${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
           mingw32-make.exe qmake_all
 
       - name: Build
