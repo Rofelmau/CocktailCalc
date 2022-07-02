@@ -105,7 +105,11 @@ jobs:
       
       - name: Set path and refresh
         run: |
-          echo "d:/a/qt-github-console/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
+          echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
+
+      - name: Prepend path
+        run: |
+          echo "d:/a/CocktailCalc/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" >> $GITHUB_PATH
   
       - name: Qmake and make
         run: | 
