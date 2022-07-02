@@ -97,14 +97,16 @@ jobs:
           mingw32-make.exe -version
           Write-Output (Get-Command g++).Path
           ls (Get-Command g++.exe).Path
-          g++.exe --version 
+          g++.exe --version
+          
+      - name: Get number of CPU cores
+        uses: SimenB/github-actions-cpu-cores@v1
+        id: cpu-cores          
 
       - name: Make mingw32
         working-directory: d:/a/CocktailCalc/CocktailCalc
         run: |
-          include(ProcessorCount)
-          ProcessorCount(N)
-          mingw32-make.exe -j${N}
+          mingw32-make.exe -j${{ steps.cpu-cores.outputs.count }}
           Get-Location
           ls
       
@@ -112,7 +114,6 @@ jobs:
         run: |
           cp D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }}\bin\QT5Core.dll D:/a/CocktailCalc/CocktailCalc/release
           cp D:\a\CocktailCalc\Qt\${{ env.QT_VERSION }}\${{ env.MINGW_PATH }}\bin\QT5Gui.dll D:/a/CocktailCalc/CocktailCalc/release
-
 
       - name: upload artifact release
         uses: actions/upload-artifact@v3
