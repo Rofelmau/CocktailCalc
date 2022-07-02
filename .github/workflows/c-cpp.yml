@@ -104,7 +104,6 @@ jobs:
           file(WRITE "qt5/${qt_dir_prefix}/mkspecs/qconfig.pri" "${qtconfig}")
       
       - name: Qmake and make
-        working-directory: d:/a/CocktailCalc/CocktailCalc
         run: | 
           qmake.exe CocktailCalc.pro -spec win32-g++ "CONFIG+=release" #"LIBS += D:\a\CocktailCalc\Qt\5.12.7\mingw73_32\lib\libQt5Cored.a"
           mingw32-make.exe qmake_all
