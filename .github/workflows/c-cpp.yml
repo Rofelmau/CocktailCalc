@@ -65,11 +65,13 @@ jobs:
 
       - name: Set path and refresh
         run: |
-          echo "${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
+          echo "$Qt5_DIR"
+          echo "$Qt5_DIR/bin" >> $GITHUB_PATH
+          echo "$Qt5_DIR/${{ env.MINGW_PATH }}/bin" >> $GITHUB_PATH
 
       - name: Prepend path
         run: |
-          echo "${GITHUB_WORKSPACE}/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" >> $GITHUB_PATH
+          echo "$Qt5_DIR/mingw73_32/bin" >> $GITHUB_PATH
   
       - name: Qmake and make
         run: | 
