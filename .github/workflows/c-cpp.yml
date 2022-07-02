@@ -58,7 +58,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2.6.2
         with:
-          host: ${{ matrix.config.host }
+          host: ${{ matrix.config.host }}
           version: ${{ env.QT_VERSION }}
           arch: ${{ env.MINGW_VERSION }}
           extra: --external 7z
