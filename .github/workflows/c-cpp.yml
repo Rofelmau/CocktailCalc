@@ -95,5 +95,5 @@ jobs:
       - name: upload artifact release
         uses: actions/upload-artifact@v3
         with:
-          path: ${GITHUB_WORKSPACE}
+          path: ./
           name: ${{ env.PLUGIN_NAME}}-${{ matrix.config.artifact }}
