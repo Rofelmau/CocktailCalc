@@ -4,8 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-QT       += uitools
+QT      += core gui
+QT      += uitools
 QT      += network
 QT      += core
 
@@ -28,8 +28,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     filedownloader.cpp \
-        main.cpp \
-        mainwindow.cpp \
+    main.cpp \
+    mainwindow.cpp \
     ingredient.cpp \
     position.cpp \
     container.cpp \
@@ -37,7 +37,7 @@ SOURCES += \
 
 HEADERS += \
     filedownloader.h \
-        mainwindow.h \
+    mainwindow.h \
     ingredient.h \
     position.h \
     container.h \

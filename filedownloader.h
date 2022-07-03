@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QByteArray>
-#include <QNetworkAccessManager.h>
+#include <QtNetwork/qnetworkaccessmanager.h>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
