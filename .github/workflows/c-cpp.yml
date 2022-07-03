@@ -77,7 +77,6 @@ jobs:
           QT_VERSION: ${{ matrix.version }}
         run: |
           qmake CocktailCalc.pro -spec win32-g++ "CONFIG+=release" QTC_SOURCE="${qtcreator_dir}" QTC_BUILD="${qtcreator_dir}" #"LIBS += ${GITHUB_WORKSPACE}\Qt\${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
-          make qmake_all
       
       - name: Qmake Ubuntu
         if: (!startsWith(matrix.os, 'windows'))
