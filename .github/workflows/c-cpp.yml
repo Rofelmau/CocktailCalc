@@ -55,7 +55,7 @@ jobs:
           platform: x64
     
       - name: Install Qt Windows
-        if: startsWith(matrix.os, 'windows')
+        if: startsWith(matrix.config.os, 'windows')
         uses: jurplel/install-qt-action@v2
         with:
           host: ${{ matrix.config.host }}
@@ -64,7 +64,7 @@ jobs:
           extra: --external 7z
     
       - name: Install Qt Ubuntu
-        if: (!startsWith(matrix.os, 'windows'))
+        if: (!startsWith(matrix.config.os, 'windows'))
         uses: jurplel/install-qt-action@v2
         with:
           host: ${{ matrix.config.host }}
@@ -72,16 +72,16 @@ jobs:
           extra: --external 7z
   
       - name: Qmake Windows
-        if: startsWith(matrix.os, 'windows')
+        if: startsWith(matrix.config.os, 'windows')
         env:
-          QT_VERSION: ${{ matrix.version }}
+          QT_VERSION: ${{ env.QT_VERSION }}
         run: |
           qmake CocktailCalc.pro -spec win32-g++ "CONFIG+=release" QTC_SOURCE="${qtcreator_dir}" QTC_BUILD="${qtcreator_dir}" #"LIBS += ${GITHUB_WORKSPACE}\Qt\${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}\lib\libQt5Cored.a"
       
       - name: Qmake Ubuntu
-        if: (!startsWith(matrix.os, 'windows'))
+        if: (!startsWith(matrix.config.os, 'windows'))
         env:
-          QT_VERSION: ${{ matrix.version }}
+          QT_VERSION: ${{ env.QT_VERSION }}
         run: |
           qmake CocktailCalc.pro "CONFIG+=release" QTC_SOURCE="${qtcreator_dir}" QTC_BUILD="${qtcreator_dir}"
           make qmake_all
