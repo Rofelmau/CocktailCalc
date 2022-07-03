@@ -95,5 +95,5 @@ jobs:
       - name: upload artifact release
         uses: actions/upload-artifact@v3
         with:
-          path: ./${{ env.PLUGIN_NAME }}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
-          name: ${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-${{ matrix.config.artifact }}
+          path: ${GITHUB_WORKSPACE}
+          name: ${{ env.PLUGIN_NAME}}-${{ matrix.config.artifact }}
